@@ -4,69 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zuga Fitness Trainer</title>
-    <meta name="theme-color" content="#00bfa6">
-    <meta name="description" content="Fitness trainer client management app">
+    <meta name="theme-color" content="#6C63FF">
+    <meta name="description" content="Professional fitness trainer client management app">
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏋️</text></svg>">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* CSS Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         :root {
-            --primary: #00bfa6;
-            --primary-dark: #009688;
-            --primary-light: #e0f2f1;
+            --primary: #6C63FF;
+            --primary-light: #8A85FF;
+            --primary-dark: #5752D4;
+            --secondary: #FF6584;
+            --accent: #36D1DC;
             --white: #ffffff;
-            --light-gray: #f5f5f5;
-            --gray: #e0e0e0;
-            --dark-gray: #757575;
-            --text: #212121;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --radius: 12px;
-            --transition: all 0.3s ease;
+            --light: #F8F9FF;
+            --light-gray: #EFF1F8;
+            --gray: #A0A3BD;
+            --dark-gray: #6E7191;
+            --text: #14142B;
+            --shadow: 0 10px 30px rgba(108, 99, 255, 0.15);
+            --shadow-light: 0 5px 15px rgba(108, 99, 255, 0.1);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             --safe-area-top: env(safe-area-inset-top, 0px);
             --safe-area-bottom: env(safe-area-inset-bottom, 0px);
         }
 
         body {
-            background-color: var(--light-gray);
+            background: linear-gradient(135deg, #F8F9FF 0%, #EFF1F8 100%);
             color: var(--text);
             line-height: 1.6;
             padding-top: var(--safe-area-top);
-            padding-bottom: calc(70px + var(--safe-area-bottom));
+            padding-bottom: calc(80px + var(--safe-area-bottom));
             -webkit-tap-highlight-color: transparent;
+            min-height: 100vh;
         }
 
         /* Common Components */
         .container {
             max-width: 100%;
-            padding: 16px;
+            padding: 20px;
         }
 
         .card {
             background: var(--white);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            padding: 20px;
+            padding: 24px;
             margin-bottom: 20px;
             transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         .card:hover {
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 40px rgba(108, 99, 255, 0.2);
+            transform: translateY(-5px);
         }
 
         .btn {
-            background-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
             border: none;
             border-radius: 50px;
-            padding: 14px 24px;
+            padding: 16px 28px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
@@ -74,60 +83,118 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 5px rgba(0, 191, 166, 0.3);
+            box-shadow: var(--shadow-light);
             touch-action: manipulation;
-            min-height: 48px;
+            min-height: 56px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-dark) 100%);
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .btn:hover::after, .btn:active::after {
+            opacity: 1;
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
         }
 
         .btn:active {
             transform: scale(0.98);
         }
 
-        .btn:hover {
-            background-color: var(--primary-dark);
-        }
-
         .btn-secondary {
-            background-color: var(--light-gray);
-            color: var(--text);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(135deg, var(--secondary) 0%, #FF8FA0 100%);
         }
 
-        .btn-secondary:hover {
-            background-color: var(--gray);
+        .btn-secondary::after {
+            background: linear-gradient(135deg, #FF8FA0 0%, #FF4D6D 100%);
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent) 0%, #5B86E5 100%);
+        }
+
+        .btn-accent::after {
+            background: linear-gradient(135deg, #5B86E5 0%, #36D1DC 100%);
         }
 
         .btn-small {
-            padding: 10px 16px;
+            padding: 12px 20px;
             font-size: 14px;
-            min-height: 40px;
+            min-height: 44px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            box-shadow: none;
+        }
+
+        .btn-outline::after {
+            background: var(--primary);
+        }
+
+        .btn-outline:hover, .btn-outline:active {
+            color: white;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            position: relative;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
             color: var(--dark-gray);
+            font-size: 14px;
+        }
+
+        .input-wrapper {
+            position: relative;
         }
 
         input, select, textarea {
             width: 100%;
-            padding: 14px;
-            border: 2px solid var(--gray);
-            border-radius: var(--radius);
+            padding: 18px 20px;
+            border: 2px solid var(--light-gray);
+            border-radius: var(--radius-sm);
             font-size: 16px;
             transition: var(--transition);
             -webkit-appearance: none;
+            background: var(--white);
+            color: var(--text);
+            font-weight: 500;
         }
 
         input:focus, select:focus, textarea:focus {
             border-color: var(--primary);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(0, 191, 166, 0.2);
+            box-shadow: 0 0 0 4px rgba(108, 99, 255, 0.15);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+            font-size: 20px;
         }
 
         /* Views */
@@ -141,57 +208,110 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         /* Header */
         .header {
-            background-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
-            padding: 16px;
+            padding: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow);
             position: sticky;
             top: 0;
             z-index: 100;
-            padding-top: calc(16px + var(--safe-area-top));
+            padding-top: calc(20px + var(--safe-area-top));
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             font-weight: 700;
+            font-size: 22px;
+        }
+
+        .logo-icon {
+            background: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 20px;
         }
 
         /* Login View */
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 120px);
+            padding: 20px;
+        }
+
         .login-card {
-            max-width: 400px;
-            margin: 40px auto;
+            max-width: 440px;
+            width: 100%;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: var(--radius) var(--radius) 0 0;
         }
 
         .login-card h1 {
             color: var(--primary);
-            margin-bottom: 10px;
-            font-size: 28px;
+            margin-bottom: 12px;
+            font-size: 32px;
+            font-weight: 700;
         }
 
         .login-card p {
             color: var(--dark-gray);
-            margin-bottom: 30px;
+            margin-bottom: 36px;
+            font-size: 16px;
+        }
+
+        .app-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 36px;
+            box-shadow: var(--shadow);
         }
 
         .register-link {
-            margin-top: 20px;
+            margin-top: 24px;
             color: var(--primary);
             text-decoration: none;
             font-weight: 600;
             display: inline-block;
+            transition: var(--transition);
+        }
+
+        .register-link:hover {
+            color: var(--primary-dark);
         }
 
         /* Dashboard View */
@@ -199,9 +319,46 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 16px;
+        }
+
+        .dashboard-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow-light);
+        }
+
+        .stat-card:nth-child(2) {
+            background: linear-gradient(135deg, var(--secondary) 0%, #FF8FA0 100%);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
         }
 
         .client-list {
@@ -209,19 +366,21 @@
         }
 
         .client-item {
-            padding: 16px;
-            border-bottom: 1px solid var(--gray);
+            padding: 20px;
+            border-bottom: 1px solid var(--light-gray);
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
             transition: var(--transition);
-            border-radius: var(--radius);
-            margin-bottom: 8px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 12px;
+            background: var(--white);
+            box-shadow: var(--shadow-light);
         }
 
         .client-item:active {
-            background-color: var(--primary-light);
+            background: var(--light);
             transform: scale(0.995);
         }
 
@@ -231,17 +390,19 @@
         }
 
         .client-avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background-color: var(--primary);
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            margin-right: 12px;
+            margin-right: 16px;
             flex-shrink: 0;
+            font-size: 20px;
+            box-shadow: var(--shadow-light);
         }
 
         .client-info {
@@ -250,12 +411,26 @@
 
         .client-name {
             font-weight: 600;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             font-size: 18px;
         }
 
         .client-details {
             font-size: 14px;
+            color: var(--dark-gray);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .client-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: var(--light);
             color: var(--dark-gray);
         }
 
@@ -264,47 +439,60 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 16px;
         }
 
         .client-detail-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 12px;
-            padding-bottom: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
             border-bottom: 1px solid var(--light-gray);
         }
 
         .detail-label {
             font-weight: 600;
             color: var(--dark-gray);
+            font-size: 14px;
         }
 
         .detail-value {
             text-align: right;
             max-width: 60%;
             word-break: break-word;
+            font-weight: 500;
         }
 
         /* Calendar */
         .calendar {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .calendar-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+        }
+
+        .calendar-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 8px;
         }
 
         .calendar-weekdays {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 4px;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
         .weekday {
@@ -312,13 +500,13 @@
             font-weight: 600;
             font-size: 12px;
             color: var(--dark-gray);
-            padding: 8px 0;
+            padding: 12px 0;
         }
 
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 6px;
+            gap: 8px;
         }
 
         .calendar-day {
@@ -326,13 +514,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
+            border-radius: 12px;
             font-weight: 600;
             cursor: pointer;
             transition: var(--transition);
-            background-color: var(--light-gray);
+            background: var(--light);
             font-size: 14px;
             touch-action: manipulation;
+            position: relative;
         }
 
         .calendar-day:active {
@@ -340,32 +529,33 @@
         }
 
         .calendar-day.selected {
-            background-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
+            box-shadow: var(--shadow-light);
         }
 
         .calendar-day.present {
-            background-color: #4caf50;
+            background: #4caf50;
             color: white;
         }
 
         .calendar-day.absent {
-            background-color: #f44336;
+            background: #f44336;
             color: white;
         }
 
         .calendar-day.holiday {
-            background-color: #ff9800;
+            background: #ff9800;
             color: white;
         }
 
         .calendar-day.freeze {
-            background-color: #2196f3;
+            background: #2196f3;
             color: white;
         }
 
         .calendar-day.empty {
-            background-color: transparent;
+            background: transparent;
             cursor: default;
         }
 
@@ -375,25 +565,25 @@
 
         /* Day Info */
         .day-info-card {
-            margin-top: 20px;
+            margin-top: 24px;
         }
 
         .day-info-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         /* Toast */
         .toast {
             position: fixed;
-            bottom: 80px;
+            bottom: 100px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: var(--text);
+            background: var(--text);
             color: white;
-            padding: 12px 24px;
+            padding: 16px 28px;
             border-radius: 50px;
             box-shadow: var(--shadow);
             z-index: 1000;
@@ -401,6 +591,7 @@
             transition: opacity 0.3s ease;
             max-width: 80%;
             text-align: center;
+            font-weight: 500;
         }
 
         .toast.show {
@@ -410,23 +601,23 @@
         /* Floating Home Button */
         .floating-home {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
+            bottom: 24px;
+            right: 24px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
-            background-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--shadow);
             cursor: pointer;
             z-index: 100;
             transition: var(--transition);
             font-size: 24px;
             touch-action: manipulation;
-            bottom: calc(20px + var(--safe-area-bottom));
+            bottom: calc(24px + var(--safe-area-bottom));
         }
 
         .floating-home:active {
@@ -440,8 +631,8 @@
             left: 0;
             right: 0;
             background: var(--white);
-            padding: 16px;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
             display: none;
             z-index: 1000;
             border-top-left-radius: var(--radius);
@@ -461,12 +652,20 @@
         .install-content {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
         }
 
         .install-icon {
-            font-size: 24px;
+            font-size: 28px;
             flex-shrink: 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
         }
 
         .install-text {
@@ -475,6 +674,7 @@
 
         .install-text h3 {
             margin-bottom: 4px;
+            font-size: 18px;
         }
 
         .install-text p {
@@ -484,40 +684,7 @@
 
         .install-actions {
             display: flex;
-            gap: 8px;
-        }
-
-        /* Responsive */
-        @media (min-width: 768px) {
-            .container {
-                max-width: 700px;
-                margin: 0 auto;
-            }
-            
-            .client-detail-row {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .btn {
-                width: 100%;
-            }
-            
-            .client-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .dashboard-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .calendar-day {
-                font-size: 12px;
-            }
+            gap: 10px;
         }
 
         /* Loading Spinner */
@@ -534,74 +701,169 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--dark-gray);
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 700px;
+                margin: 0 auto;
+            }
+            
+            .client-detail-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .btn {
+                width: 100%;
+            }
+            
+            .client-header, .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .calendar-day {
+                font-size: 12px;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .install-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .install-actions {
+                width: 100%;
+            }
+            
+            .install-actions .btn {
+                flex: 1;
+            }
+        }
+
+        /* Animation for page transitions */
+        .view.active {
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
     </style>
 </head>
 <body>
     <!-- Login View -->
     <div id="loginView" class="view active">
-        <div class="container">
+        <div class="login-container">
             <div class="login-card card">
-                <h1>Zuga Fitness Trainer</h1>
-                <p>Manage your clients efficiently</p>
+                <div class="app-icon">💪</div>
+                <h1>Zuga Fitness</h1>
+                <p>Professional trainer client management</p>
                 
                 <div class="form-group">
                     <label for="loginEmail">Email or Phone</label>
-                    <input type="text" id="loginEmail" placeholder="Enter your email or phone">
+                    <div class="input-wrapper">
+                        <input type="text" id="loginEmail" placeholder="Enter your email or phone">
+                        <div class="input-icon">📱</div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="loginPassword">Password</label>
-                    <input type="password" id="loginPassword" placeholder="Enter your password">
+                    <div class="input-wrapper">
+                        <input type="password" id="loginPassword" placeholder="Enter your password">
+                        <div class="input-icon">🔒</div>
+                    </div>
                 </div>
                 
-                <button class="btn" id="loginBtn" style="width: 100%;">
+                <button class="btn" id="loginBtn" style="width: 100%; margin-top: 10px;">
                     <span id="loginText">Login</span>
                     <span id="loginSpinner" class="spinner" style="display: none;"></span>
                 </button>
                 
-                <a href="#" class="register-link" id="showRegister">Register new trainer</a>
+                <a href="#" class="register-link" id="showRegister">Create new trainer account</a>
             </div>
         </div>
     </div>
 
     <!-- Registration View -->
     <div id="registerView" class="view">
-        <div class="container">
+        <div class="login-container">
             <div class="login-card card">
-                <h1>Register as Trainer</h1>
-                <p>Create your account to get started</p>
+                <div class="app-icon">👤</div>
+                <h1>Join Zuga Fitness</h1>
+                <p>Create your trainer account</p>
                 
                 <div class="form-group">
                     <label for="regName">Full Name</label>
-                    <input type="text" id="regName" placeholder="Enter your full name">
+                    <div class="input-wrapper">
+                        <input type="text" id="regName" placeholder="Enter your full name">
+                        <div class="input-icon">👤</div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="regPhone">Phone</label>
-                    <input type="tel" id="regPhone" placeholder="Enter your phone number">
+                    <div class="input-wrapper">
+                        <input type="tel" id="regPhone" placeholder="Enter your phone number">
+                        <div class="input-icon">📞</div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="regEmail">Email</label>
-                    <input type="email" id="regEmail" placeholder="Enter your email">
+                    <div class="input-wrapper">
+                        <input type="email" id="regEmail" placeholder="Enter your email">
+                        <div class="input-icon">📧</div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="regPassword">Password</label>
-                    <input type="password" id="regPassword" placeholder="Create a password">
+                    <div class="input-wrapper">
+                        <input type="password" id="regPassword" placeholder="Create a password">
+                        <div class="input-icon">🔒</div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="regOTP">OTP (Mock: 123456)</label>
-                    <input type="text" id="regOTP" placeholder="Enter OTP">
+                    <label for="regOTP">Verification Code</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="regOTP" placeholder="Enter code (use 123456)">
+                        <div class="input-icon">🔢</div>
+                    </div>
                 </div>
                 
-                <button class="btn" id="registerBtn" style="width: 100%;">
-                    <span id="registerText">Register</span>
+                <button class="btn" id="registerBtn" style="width: 100%; margin-top: 10px;">
+                    <span id="registerText">Create Account</span>
                     <span id="registerSpinner" class="spinner" style="display: none;"></span>
                 </button>
                 
-                <a href="#" class="register-link" id="showLogin">Back to Login</a>
+                <a href="#" class="register-link" id="showLogin">Already have an account? Login</a>
             </div>
         </div>
     </div>
@@ -610,7 +872,7 @@
     <div id="dashboardView" class="view">
         <div class="header">
             <div class="logo">
-                <span>🏋️</span>
+                <div class="logo-icon">💪</div>
                 <span>Zuga Fitness</span>
             </div>
             <button class="btn btn-secondary btn-small" id="logoutBtn">Logout</button>
@@ -618,8 +880,19 @@
         
         <div class="container">
             <div class="dashboard-header">
-                <h2>My Clients</h2>
+                <h2 class="dashboard-title">My Clients</h2>
                 <button class="btn" id="addClientBtn">+ Add New Client</button>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalClients">0</div>
+                    <div class="stat-label">Total Clients</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="activeClients">0</div>
+                    <div class="stat-label">Active Clients</div>
+                </div>
             </div>
             
             <div class="card">
@@ -634,7 +907,7 @@
     <div id="clientView" class="view">
         <div class="header">
             <div class="logo">
-                <span>🧘‍♀️</span>
+                <div class="logo-icon">🧘‍♀️</div>
                 <span id="clientViewTitle">Client Profile</span>
             </div>
             <button class="btn btn-secondary btn-small" id="backToDashboardBtn">Back</button>
@@ -644,7 +917,7 @@
             <!-- Client Info Section -->
             <div class="client-header">
                 <h2 id="clientName">Client Name</h2>
-                <button class="btn btn-small" id="editClientBtn">Edit</button>
+                <button class="btn btn-small" id="editClientBtn">Edit Profile</button>
             </div>
             
             <div class="card" id="clientInfoCard">
@@ -685,10 +958,10 @@
             <!-- Calendar Section -->
             <div class="card calendar">
                 <div class="calendar-header">
-                    <h3 id="calendarMonth">October 2023</h3>
-                    <div>
-                        <button class="btn btn-secondary btn-small" id="prevMonthBtn">‹</button>
-                        <button class="btn btn-secondary btn-small" id="nextMonthBtn">›</button>
+                    <h3 class="calendar-title" id="calendarMonth">October 2023</h3>
+                    <div class="calendar-nav">
+                        <button class="btn btn-outline btn-small" id="prevMonthBtn">‹</button>
+                        <button class="btn btn-outline btn-small" id="nextMonthBtn">›</button>
                     </div>
                 </div>
                 <div class="calendar-weekdays">
@@ -712,7 +985,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="attendanceSelect">Attendance</label>
+                    <label for="attendanceSelect">Attendance Status</label>
                     <select id="attendanceSelect">
                         <option value="">Select status</option>
                         <option value="present">🟢 Present</option>
@@ -724,7 +997,7 @@
                 
                 <div class="form-group">
                     <label for="workoutNotes">Workout Notes</label>
-                    <textarea id="workoutNotes" rows="3" placeholder="Enter today's workout details"></textarea>
+                    <textarea id="workoutNotes" rows="3" placeholder="Enter today's workout details, progress, or any notes"></textarea>
                 </div>
                 
                 <button class="btn" id="saveDayInfoBtn" style="width: 100%;">Save Day Info</button>
@@ -732,7 +1005,7 @@
             
             <!-- Progress Section -->
             <div class="card">
-                <button class="btn" id="downloadReportBtn" style="width: 100%;">Download Monthly Report</button>
+                <button class="btn btn-accent" id="downloadReportBtn" style="width: 100%;">📊 Download Monthly Report</button>
             </div>
         </div>
     </div>
@@ -794,7 +1067,7 @@
                 </div>
                 
                 <div style="display: flex; gap: 10px;">
-                    <button class="btn" id="saveClientBtn" style="flex: 1;">Save</button>
+                    <button class="btn" id="saveClientBtn" style="flex: 1;">Save Changes</button>
                     <button class="btn btn-secondary" id="cancelEditBtn" style="flex: 1;">Cancel</button>
                 </div>
             </div>
@@ -858,7 +1131,7 @@
                 </div>
                 
                 <div style="display: flex; gap: 10px;">
-                    <button class="btn" id="saveNewClientBtn" style="flex: 1;">Save</button>
+                    <button class="btn" id="saveNewClientBtn" style="flex: 1;">Add Client</button>
                     <button class="btn btn-secondary" id="cancelAddBtn" style="flex: 1;">Cancel</button>
                 </div>
             </div>
@@ -917,6 +1190,7 @@
                 state.currentTrainer = JSON.parse(savedTrainer);
                 showView('dashboard');
                 renderClientList();
+                updateStats();
             }
 
             // Set up event listeners
@@ -1060,6 +1334,7 @@
             // Perform view-specific initializations
             if (viewName === 'dashboard') {
                 renderClientList();
+                updateStats();
             } else if (viewName === 'client' && state.currentClient) {
                 renderClientProfile();
                 renderCalendar();
@@ -1067,6 +1342,21 @@
             
             // Hide install prompt when navigating
             hideInstallPrompt();
+        }
+
+        // Update dashboard statistics
+        function updateStats() {
+            if (!state.currentTrainer) return;
+            
+            const trainerClients = state.clients[state.currentTrainer.id] || [];
+            const totalClients = trainerClients.length;
+            const activeClients = trainerClients.filter(client => {
+                const renewalDate = new Date(client.renewalDate);
+                return renewalDate >= new Date();
+            }).length;
+            
+            document.getElementById('totalClients').textContent = totalClients;
+            document.getElementById('activeClients').textContent = activeClients;
         }
 
         // Handle user login
@@ -1100,6 +1390,7 @@
                     localStorage.setItem('currentTrainer', JSON.stringify(trainer));
                     showView('dashboard');
                     renderClientList();
+                    updateStats();
                     showToast(`Welcome back, ${trainer.name}!`);
                 } else {
                     showToast('Invalid credentials. Please try again.');
@@ -1165,6 +1456,7 @@
                 
                 showView('dashboard');
                 renderClientList();
+                updateStats();
                 showToast(`Account created successfully! Welcome, ${name}`);
                 
                 // Reset button state
@@ -1192,7 +1484,13 @@
             const trainerClients = state.clients[state.currentTrainer.id] || [];
             
             if (trainerClients.length === 0) {
-                clientList.innerHTML = '<p style="text-align: center; padding: 20px; color: var(--dark-gray);">No clients yet. Add your first client!</p>';
+                clientList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">👥</div>
+                        <h3>No Clients Yet</h3>
+                        <p>Add your first client to get started</p>
+                    </div>
+                `;
                 return;
             }
             
@@ -1204,15 +1502,25 @@
                     showView('client');
                 });
                 
+                // Determine status
+                const renewalDate = new Date(client.renewalDate);
+                const today = new Date();
+                const isActive = renewalDate >= today;
+                const statusText = isActive ? 'Active' : 'Inactive';
+                const statusIcon = isActive ? '🟢' : '🔴';
+                
                 li.innerHTML = `
                     <div style="display: flex; align-items: center;">
                         <div class="client-avatar">${client.name.charAt(0)}</div>
                         <div class="client-info">
                             <div class="client-name">${client.name}</div>
-                            <div class="client-details">${client.age} yrs • ${client.gender}</div>
+                            <div class="client-details">
+                                <span>${client.age} yrs • ${client.gender}</span>
+                                <div class="client-status">${statusIcon} ${statusText}</div>
+                            </div>
                         </div>
                     </div>
-                    <div>▶</div>
+                    <div style="color: var(--gray); font-size: 20px;">›</div>
                 `;
                 
                 clientList.appendChild(li);
@@ -1340,6 +1648,7 @@
             
             showView('dashboard');
             renderClientList();
+            updateStats();
             showToast(`Client ${name} added successfully`);
             
             // Reset form
@@ -1509,7 +1818,7 @@
                     <title>Monthly Report - ${state.currentClient.name} - ${monthYear}</title>
                     <style>
                         body { font-family: Arial, sans-serif; margin: 20px; }
-                        h1 { color: #00bfa6; }
+                        h1 { color: #6C63FF; }
                         table { width: 100%; border-collapse: collapse; margin: 20px 0; }
                         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
                         th { background-color: #f2f2f2; }
@@ -1654,7 +1963,7 @@
                 const swContent = `
                     self.addEventListener('install', event => {
                         event.waitUntil(
-                            caches.open('zuga-fitness-v1').then(cache => {
+                            caches.open('zuga-fitness-v2').then(cache => {
                                 return cache.addAll([
                                     './',
                                     './index.html'
@@ -1687,20 +1996,20 @@
         {
             "name": "Zuga Fitness Trainer",
             "short_name": "Zuga Fitness",
-            "description": "Fitness trainer client management app",
+            "description": "Professional fitness trainer client management app",
             "start_url": "./",
             "display": "standalone",
-            "background_color": "#ffffff",
-            "theme_color": "#00bfa6",
+            "background_color": "#F8F9FF",
+            "theme_color": "#6C63FF",
             "orientation": "portrait-primary",
             "icons": [
                 {
-                    "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9IiMwMEJGQTYiLz4KPHBhdGggZD0iTTk2IDU2QzEwNy4wNDYgNTYgMTE2IDY0Ljk1NDUgMTE2IDc2VjExNkMxMTYgMTI3LjA0NiAxMDcuMDQ2IDEzNiA5NiAxMzZDODQuOTU0NSAxMzYgNzYgMTI3LjA0NiA3NiAxMTZWNzZDNzYgNjQuOTU0NSA4NC45NTQ1IDU2IDk2IDU2WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTY0IDk2QzY0IDg0Ljk1NDUgNzIuOTU0NSA3NiA4NCA3NkgxMDhDMTE5LjA0NiA3NiAxMjggODQuOTU0NSAxMjggOTZWMTE2QzEyOCAxMjcuMDQ2IDExOS4wNDYgMTM2IDEwOCAxMzZIODRDNzIuOTU0NSAxMzYgNjQgMTI3LjA0NiA2NCAxMTZWOTZaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K",
+                    "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9IiM2QzYzRkYiLz4KPHBhdGggZD0iTTk2IDU2QzEwNy4wNDYgNTYgMTE2IDY0Ljk1NDUgMTE2IDc2VjExNkMxMTYgMTI3LjA0NiAxMDcuMDQ2IDEzNiA5NiAxMzZDODQuOTU0NSAxMzYgNzYgMTI3LjA0NiA3NiAxMTZWNzZDNzYgNjQuOTU0NSA4NC45NTQ1IDU2IDk2IDU2WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTY0IDk2QzY0IDg0Ljk1NDUgNzIuOTU0NSA3NiA4NCA3NkgxMDhDMTE5LjA0NiA3NiAxMjggODQuOTU0NSAxMjggOTZWMTE2QzEyOCAxMjcuMDQ2IDExOS4wNDYgMTM2IDEwOCAxMzZIODRDNzIuOTU0NSAxMzYgNjQgMTI3LjA0NiA2NCAxMTZWOTZaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K",
                     "sizes": "192x192",
                     "type": "image/svg+xml"
                 },
                 {
-                    "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iNjQiIGZpbGw9IiMwMEJGQTYiLz4KPHBhdGggZD0iTTI1NiAxNDhDMjkxLjM0NyAxNDggMzIwIDE3Ni42NTMgMzIwIDIxMlYzMDhDMzIwIDM0My4zNDcgMjkxLjM0NyAzNzIgMjU2IDM3MkMyMjAuNjUzIDM3MiAxOTIgMzQzLjM0NyAxOTIgMzA4VjIxMkMxOTIgMTc2LjY1MyAyMjAuNjUzIDE0OCAyNTYgMTQ4WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTE3MiAyNTZDMTcyIDI0NC45NTQgMTgwLjk1NCAyMzYgMTkyIDIzNkgyODhDMjk5LjA0NiAyMzYgMzA4IDI0NC45NTQgMzA4IDI1NlYzMDhDMzA4IDMxOS4wNDYgMjk5LjA0NiAzMjggMjg4IDMyOEgxOTJDMTgwLjk1NCAzMjggMTcyIDMxOS4wNDYgMTcyIDMwOFYyNTZaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K",
+                    "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iNjQiIGZpbGw9IiM2QzYzRkYiLz4KPHBhdGggZD0iTTI1NiAxNDhDMjkxLjM0NyAxNDggMzIwIDE3Ni42NTMgMzIwIDIxMlYzMDhDMzIwIDM0My4zNDcgMjkxLjM0NyAzNzIgMjU2IDM3MkMyMjAuNjUzIDM3MiAxOTIgMzQzLjM0NyAxOTIgMzA4VjIxMkMxOTIgMTc2LjY1MyAyMjAuNjUzIDE0OCAyNTYgMTQ4WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTE3MiAyNTZDMTcyIDI0NC45NTQgMTgwLjk1NCAyMzYgMTkyIDIzNkgyODhDMjk5LjA0NiAyMzYgMzA4IDI0NC45NTQgMzA4IDI1NlYzMDhDMzA4IDMxOS4wNDYgMjk5LjA0NiAzMjggMjg4IDMyOEgxOTJDMTgwLjk1NCAzMjggMTcyIDMxOS4wNDYgMTcyIDMwOFYyNTZaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K",
                     "sizes": "512x512",
                     "type": "image/svg+xml"
                 }
