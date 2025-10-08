@@ -7,90 +7,72 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#00bfa6">
 <style>
-/* 🌿 Zuga Fitness Theme */
 :root {
   --zuga-green: #00bfa6;
   --zuga-dark: #033d38;
   --zuga-light: #f7fffc;
   --gray: #555;
   --red: #ff8a8a;
-  --yellow: #fff6a5;
-  --blue: #b9edff;
 }
-body {
-  margin: 0; font-family: "Poppins", sans-serif;
-  background: var(--zuga-light);
-  color: var(--gray);
-}
+body { margin:0; font-family:"Poppins",sans-serif; background:var(--zuga-light); color:var(--gray); }
 header {
-  display: flex; justify-content: space-between; align-items: center;
-  background: linear-gradient(90deg, var(--zuga-green), #33c9af);
-  color: white; padding: 12px 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display:flex; justify-content:space-between; align-items:center;
+  background:linear-gradient(90deg,var(--zuga-green),#33c9af);
+  color:white; padding:12px 18px; box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
-header img { height: 42px; border-radius: 10px; }
+header img { height:42px; border-radius:10px; }
 header button {
-  background: white; color: var(--zuga-green);
-  border: none; border-radius: 20px; padding: 6px 14px; cursor: pointer;
+  background:white; color:var(--zuga-green);
+  border:none; border-radius:20px; padding:6px 14px; cursor:pointer;
 }
 
-/* Login/Register Page */
-.page {
-  display: none;
-  justify-content: center; align-items: center;
-  height: 100vh;
-}
-.active { display: flex; }
+/* Main Layout */
+.page { display:none; justify-content:center; align-items:center; height:100vh; }
+.active { display:flex; }
 .card {
-  background: white; padding: 25px; border-radius: 16px;
-  box-shadow: 0 5px 25px rgba(0,0,0,0.1);
-  width: 90%; max-width: 380px; text-align: center;
+  background:white; padding:25px; border-radius:16px; box-shadow:0 5px 25px rgba(0,0,0,0.1);
+  width:90%; max-width:380px; text-align:center;
 }
-.card h2 { color: var(--zuga-green); margin-bottom: 18px; }
+.card h2 { color:var(--zuga-green); margin-bottom:18px; }
 input {
-  width: 100%; padding: 10px; border-radius: 10px;
-  border: 1px solid #ccc; margin-bottom: 12px;
+  width:100%; padding:10px; border-radius:10px; border:1px solid #ccc; margin-bottom:12px;
 }
 button {
-  background: var(--zuga-green); color: white;
-  border: none; border-radius: 10px;
-  padding: 10px 16px; font-weight: bold; cursor: pointer;
+  background:var(--zuga-green); color:white; border:none; border-radius:10px;
+  padding:10px 16px; font-weight:bold; cursor:pointer;
 }
-button:hover { background: #01947e; }
+button:hover { background:#01947e; }
 
-/* Home Page */
-#home { padding: 20px; }
+/* Clients */
+#home { padding:20px; display:none; }
 .client-card {
-  background: white; padding: 15px; border-radius: 12px;
-  margin-bottom: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-  display: flex; justify-content: space-between; align-items: center;
-  cursor: pointer;
+  background:white; padding:15px; border-radius:12px;
+  margin-bottom:10px; box-shadow:0 2px 6px rgba(0,0,0,0.05);
+  display:flex; justify-content:space-between; align-items:center; cursor:pointer;
 }
-.client-card:hover { background: #eafff8; }
+.client-card:hover { background:#eafff8; }
 
-/* Client Edit Modal */
+/* Modal */
 #clientModal {
-  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.4);
-  display: none; justify-content: center; align-items: center;
+  position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.4);
+  display:none; justify-content:center; align-items:center;
 }
 .modal-box {
-  background: white; padding: 20px; border-radius: 15px;
-  width: 90%; max-width: 400px;
+  background:white; padding:20px; border-radius:15px; width:90%; max-width:400px;
 }
-.modal-box input, .modal-box textarea { width: 100%; margin-bottom: 10px; }
-
-/* Responsive */
-@media(max-width:600px){
-  header strong { font-size: 1em; }
+.modal-box input, .modal-box textarea { width:100%; margin-bottom:10px; }
+.install-btn {
+  position:fixed; bottom:15px; right:15px; background:var(--zuga-green);
+  color:white; border:none; border-radius:10px; padding:10px 16px; cursor:pointer;
+  display:none;
 }
 </style>
 </head>
 <body>
 
-<!-- Header -->
 <header id="mainHeader" style="display:none;">
   <div style="display:flex;align-items:center;gap:10px;">
-    <img src="photo_2025-03-07_22-31-00.jpg">
+    <img src="https://zugafitness.in/wp-content/uploads/2023/07/logo.png">
     <strong>Zuga Fitness Trainer Panel</strong>
   </div>
   <button onclick="logout()">Logout</button>
@@ -99,7 +81,7 @@ button:hover { background: #01947e; }
 <!-- LOGIN PAGE -->
 <div id="login" class="page active">
   <div class="card">
-    <img src="photo_2025-03-07_22-31-00.jpg" height="60">
+    <img src="https://zugafitness.in/wp-content/uploads/2023/07/logo.png" height="60">
     <h2>Trainer Login</h2>
     <input id="loginEmail" type="text" placeholder="Email / Phone">
     <input id="loginPass" type="password" placeholder="Password">
@@ -122,7 +104,7 @@ button:hover { background: #01947e; }
 </div>
 
 <!-- HOME PAGE -->
-<div id="home" style="display:none;">
+<div id="home">
   <h2 style="color:var(--zuga-green);">My Clients</h2>
   <div id="clientsList"></div>
   <button onclick="openClientModal()">➕ Add Client</button>
@@ -146,6 +128,9 @@ button:hover { background: #01947e; }
   </div>
 </div>
 
+<!-- Install App Button -->
+<button class="install-btn" id="installBtn">Install Zuga Trainer App</button>
+
 <script>
 // ---- Page Navigation ----
 function showPage(id){
@@ -155,41 +140,40 @@ function showPage(id){
 
 // ---- Trainer Registration ----
 function sendOTP(){
-  const email = document.getElementById('regEmail').value;
-  if(!email){ alert("Enter email or phone"); return; }
-  const otp = Math.floor(100000 + Math.random()*900000);
-  localStorage.setItem('otp', otp);
-  alert("OTP sent: " + otp + " (simulated)");
-  document.getElementById('otpInput').style.display = 'block';
-  document.getElementById('verifyBtn').style.display = 'block';
+  const email=document.getElementById('regEmail').value;
+  if(!email){alert("Enter email or phone");return;}
+  const otp=Math.floor(100000+Math.random()*900000);
+  localStorage.setItem('otp',otp);
+  alert("OTP sent: "+otp+" (simulated)");
+  document.getElementById('otpInput').style.display='block';
+  document.getElementById('verifyBtn').style.display='block';
 }
 
 function verifyOTP(){
-  const entered = document.getElementById('otpInput').value;
-  const actual = localStorage.getItem('otp');
-  if(entered === actual){
-    const email = document.getElementById('regEmail').value;
-    const pass = document.getElementById('regPass').value;
-    if(!email || !pass){ alert("Enter details"); return; }
-    let trainers = JSON.parse(localStorage.getItem('trainers')||'{}');
-    trainers[email] = {password: pass, clients: []};
-    localStorage.setItem('trainers', JSON.stringify(trainers));
-    alert("Registration successful! Please login.");
+  const entered=document.getElementById('otpInput').value;
+  const actual=localStorage.getItem('otp');
+  if(entered===actual){
+    const email=document.getElementById('regEmail').value;
+    const pass=document.getElementById('regPass').value;
+    let trainers=JSON.parse(localStorage.getItem('trainers')||'{}');
+    trainers[email]={password:pass,clients:[]};
+    localStorage.setItem('trainers',JSON.stringify(trainers));
+    alert("Registration successful!");
     showPage('login');
-  } else alert("Invalid OTP");
+  }else alert("Invalid OTP");
 }
 
 // ---- Login ----
-let currentTrainer = null;
+let currentTrainer=null;
 function login(){
-  const email = document.getElementById('loginEmail').value;
-  const pass = document.getElementById('loginPass').value;
-  let trainers = JSON.parse(localStorage.getItem('trainers')||'{}');
-  if(trainers[email] && trainers[email].password === pass){
-    currentTrainer = email;
-    localStorage.setItem('loggedTrainer', email);
+  const email=document.getElementById('loginEmail').value;
+  const pass=document.getElementById('loginPass').value;
+  let trainers=JSON.parse(localStorage.getItem('trainers')||'{}');
+  if(trainers[email] && trainers[email].password===pass){
+    currentTrainer=email;
+    localStorage.setItem('loggedTrainer',email);
     openDashboard();
-  } else alert("Invalid credentials");
+  }else alert("Invalid credentials");
 }
 
 function openDashboard(){
@@ -208,29 +192,24 @@ function logout(){
 
 // ---- Clients ----
 function loadClients(){
-  const list = document.getElementById('clientsList');
+  const list=document.getElementById('clientsList');
   list.innerHTML='';
-  const trainers = JSON.parse(localStorage.getItem('trainers')||'{}');
-  const t = trainers[currentTrainer];
+  const trainers=JSON.parse(localStorage.getItem('trainers')||'{}');
+  const t=trainers[currentTrainer];
   if(t && t.clients.length){
     t.clients.forEach((c,i)=>{
-      const div = document.createElement('div');
+      const div=document.createElement('div');
       div.className='client-card';
-      div.innerHTML = `<span>${c.name}</span>
-        <span>
-          <button onclick="editClient(${i})">✏️</button>
-          <button onclick="deleteClient(${i})">🗑️</button>
-        </span>`;
+      div.innerHTML=`<span>${c.name}</span>
+      <span><button onclick="editClient(${i})">✏️</button>
+      <button onclick="deleteClient(${i})">🗑️</button></span>`;
       list.appendChild(div);
     });
-  } else {
-    list.innerHTML='<p>No clients yet.</p>';
-  }
+  } else list.innerHTML='<p>No clients yet.</p>';
 }
 
 function openClientModal(){
   document.getElementById('clientModal').style.display='flex';
-  document.getElementById('modalTitle').innerText='Add Client';
   document.querySelectorAll('#clientModal input, #clientModal textarea').forEach(i=>i.value='');
   document.getElementById('clientModal').dataset.editIndex='';
 }
@@ -240,63 +219,64 @@ function closeClientModal(){
 }
 
 function saveClient(){
-  const client = {
-    name: cName.value, age:cAge.value, height:cHeight.value, weight:cWeight.value,
-    medical:cMedical.value, injury:cInjury.value, join:cJoin.value, renew:cRenew.value, notes:cNotes.value
+  const client={
+    name:cName.value,age:cAge.value,height:cHeight.value,weight:cWeight.value,
+    medical:cMedical.value,injury:cInjury.value,join:cJoin.value,renew:cRenew.value,notes:cNotes.value
   };
-  let trainers = JSON.parse(localStorage.getItem('trainers')||'{}');
-  const idx = document.getElementById('clientModal').dataset.editIndex;
+  let trainers=JSON.parse(localStorage.getItem('trainers')||'{}');
+  const idx=document.getElementById('clientModal').dataset.editIndex;
   if(idx==='') trainers[currentTrainer].clients.push(client);
   else trainers[currentTrainer].clients[idx]=client;
-  localStorage.setItem('trainers', JSON.stringify(trainers));
+  localStorage.setItem('trainers',JSON.stringify(trainers));
   closeClientModal(); loadClients();
 }
 
 function editClient(i){
-  const trainers = JSON.parse(localStorage.getItem('trainers'));
-  const c = trainers[currentTrainer].clients[i];
+  const trainers=JSON.parse(localStorage.getItem('trainers'));
+  const c=trainers[currentTrainer].clients[i];
   openClientModal();
-  document.getElementById('modalTitle').innerText='Edit Client';
-  cName.value=c.name; cAge.value=c.age; cHeight.value=c.height; cWeight.value=c.weight;
-  cMedical.value=c.medical; cInjury.value=c.injury; cJoin.value=c.join; cRenew.value=c.renew; cNotes.value=c.notes;
+  cName.value=c.name;cAge.value=c.age;cHeight.value=c.height;cWeight.value=c.weight;
+  cMedical.value=c.medical;cInjury.value=c.injury;cJoin.value=c.join;cRenew.value=c.renew;cNotes.value=c.notes;
   document.getElementById('clientModal').dataset.editIndex=i;
 }
 
 function deleteClient(i){
   if(confirm("Delete this client?")){
-    let trainers = JSON.parse(localStorage.getItem('trainers'));
+    let trainers=JSON.parse(localStorage.getItem('trainers'));
     trainers[currentTrainer].clients.splice(i,1);
-    localStorage.setItem('trainers', JSON.stringify(trainers));
+    localStorage.setItem('trainers',JSON.stringify(trainers));
     loadClients();
   }
 }
 
 // ---- Auto-login ----
-window.onload = ()=>{
-  const saved = localStorage.getItem('loggedTrainer');
-  if(saved){ currentTrainer=saved; openDashboard(); }
+window.onload=()=>{
+  const saved=localStorage.getItem('loggedTrainer');
+  if(saved){currentTrainer=saved;openDashboard();}
 };
 
-// ---- PWA (Install Prompt) ----
+// ---- PWA Install Prompt ----
 let deferredPrompt;
+const installBtn=document.getElementById('installBtn');
 window.addEventListener('beforeinstallprompt', e=>{
-  e.preventDefault(); deferredPrompt=e;
-  const installBtn = document.createElement('button');
-  installBtn.textContent='Install Zuga Trainer App';
-  installBtn.style.position='fixed';
-  installBtn.style.bottom='15px';
-  installBtn.style.right='15px';
-  installBtn.style.background='var(--zuga-green)';
-  installBtn.style.color='white';
-  installBtn.style.border='none';
-  installBtn.style.padding='10px 16px';
-  installBtn.style.borderRadius='10px';
-  document.body.appendChild(installBtn);
-  installBtn.addEventListener('click', ()=>{
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.finally(()=>installBtn.remove());
-  });
+  e.preventDefault();
+  deferredPrompt=e;
+  installBtn.style.display='block';
 });
+installBtn.addEventListener('click', async ()=>{
+  installBtn.style.display='none';
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt=null;
+});
+
+// ---- Service Worker ----
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('service-worker.js')
+    .then(()=>console.log('✅ Service worker registered'));
+  });
+}
 </script>
 
 </body>
