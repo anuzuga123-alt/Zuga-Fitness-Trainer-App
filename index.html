@@ -6,6 +6,7 @@
 <title>Zuga Fitness Trainer App</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#00bfa6">
+
 <style>
 :root {
   --zuga-green: #00bfa6;
@@ -19,25 +20,21 @@ body {
   margin:0; font-family:"Poppins",sans-serif;
   background:var(--zuga-light); color:var(--gray);
 }
-
-/* Header */
 header {
   display:flex; justify-content:space-between; align-items:center;
   background:linear-gradient(90deg,var(--zuga-green),#33c9af);
   color:white; padding:12px 18px; box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
-header img { height:42px; border-radius:10px; }
+header img { height:40px; border-radius:8px; }
 header button {
-  background:white; color:var(--zuga-green);
-  border:none; border-radius:20px; padding:6px 14px; cursor:pointer;
+  background:white; color:var(--zuga-green); border:none;
+  border-radius:20px; padding:6px 14px; cursor:pointer;
 }
-
-/* General Layouts */
 .page { display:none; justify-content:center; align-items:center; height:100vh; }
 .active { display:flex; }
 .card {
-  background:white; padding:25px; border-radius:16px; box-shadow:0 5px 25px rgba(0,0,0,0.1);
-  width:90%; max-width:380px; text-align:center;
+  background:white; padding:25px; border-radius:16px;
+  box-shadow:0 5px 25px rgba(0,0,0,0.1); width:90%; max-width:380px; text-align:center;
 }
 .card h2 { color:var(--zuga-green); margin-bottom:18px; }
 input, textarea, select {
@@ -48,17 +45,13 @@ button {
   padding:10px 16px; font-weight:bold; cursor:pointer;
 }
 button:hover { background:#01947e; }
-
-/* Client list */
 #home { padding:20px; display:none; }
 .client-card {
-  background:white; padding:15px; border-radius:12px;
-  margin-bottom:10px; box-shadow:0 2px 6px rgba(0,0,0,0.05);
+  background:white; padding:15px; border-radius:12px; margin-bottom:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.05);
   display:flex; justify-content:space-between; align-items:center; cursor:pointer;
 }
 .client-card:hover { background:#eafff8; }
-
-/* Modal */
 #clientModal {
   position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.4);
   display:none; justify-content:center; align-items:center;
@@ -78,7 +71,7 @@ button:hover { background:#01947e; }
 <header id="mainHeader" style="display:none;">
   <div style="display:flex;align-items:center;gap:10px;">
     <img src="https://zugafitness.in/wp-content/uploads/2023/07/logo.png">
-    <strong>Zuga Fitness Trainer Panel</strong>
+    <strong>Zuga Trainer Panel</strong>
   </div>
   <button onclick="logout()">Logout</button>
 </header>
@@ -136,14 +129,16 @@ button:hover { background:#01947e; }
 <!-- Install App Button -->
 <button class="install-btn" id="installBtn">Install Zuga Trainer App</button>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 <script>
-// ---- Page Navigation ----
+/* ======= PAGE NAVIGATION ======= */
 function showPage(id){
   document.querySelectorAll('.page, #home, #clientPage').forEach(p=>p.style.display='none');
   if(document.getElementById(id)) document.getElementById(id).style.display='flex';
 }
 
-// ---- Registration ----
+/* ======= REGISTRATION ======= */
 function sendOTP(){
   const email=document.getElementById('regEmail').value;
   if(!email){alert("Enter email or phone");return;}
@@ -167,7 +162,7 @@ function verifyOTP(){
   }else alert("Invalid OTP");
 }
 
-// ---- Login ----
+/* ======= LOGIN ======= */
 let currentTrainer=null;
 function login(){
   const email=document.getElementById('loginEmail').value;
@@ -192,7 +187,7 @@ function logout(){
   location.reload();
 }
 
-// ---- Clients ----
+/* ======= CLIENT MANAGEMENT ======= */
 function loadClients(){
   const list=document.getElementById('clientsList');
   list.innerHTML='';
@@ -247,7 +242,7 @@ function deleteClient(i){
   }
 }
 
-// ---- Client Page ----
+/* ======= CLIENT PAGE + CALENDAR ======= */
 function openClientPage(i){
   const trainers=JSON.parse(localStorage.getItem('trainers'));
   const client=trainers[currentTrainer].clients[i];
@@ -255,104 +250,189 @@ function openClientPage(i){
   document.getElementById('home').style.display='none';
   buildClientPage(client);
 }
+/* ===== CONTINUATION FROM PREVIOUS CODE ===== */
+
 function buildClientPage(client){
-  let page=document.getElementById('clientPage');
-  if(!page){
-    page=document.createElement('div');
-    page.id='clientPage';
-    page.style.padding='20px';
-    document.body.appendChild(page);
-  }
-  page.innerHTML=`
-    <button onclick="backToHome()" style="margin-bottom:10px;">⬅ Back</button>
-    <h2 style="color:#00bfa6;">${client.name}</h2>
-    <div style="display:flex;gap:15px;flex-wrap:wrap;">
-      <div style="flex:1;min-width:230px;background:white;padding:15px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-        <h3>Client Info</h3>
-        <p><b>Age:</b> ${client.age||'-'}</p>
-        <p><b>Height:</b> ${client.height||'-'} cm</p>
-        <p><b>Weight:</b> ${client.weight||'-'} kg</p>
-        <p><b>Medical:</b> ${client.medical||'-'}</p>
-        <p><b>Injury:</b> ${client.injury||'-'}</p>
-        <p><b>Joined:</b> ${client.join||'-'}</p>
-        <p><b>Renewal:</b> ${client.renew||'-'}</p>
-      </div>
-      <div style="flex:2;min-width:300px;background:white;padding:15px;border-radius:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-        <h3>Attendance Calendar</h3>
-        <div id="calendarGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;"></div>
-        <button style="margin-top:10px;" onclick="downloadReport()">📤 Download Monthly Report</button>
-      </div>
-      <div style="flex:1;min-width:230px;background:white;padding:15px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.05);">
-        <h3>Day Info</h3>
-        <p><b>Date:</b> <span id="selectedDate">-</span></p>
-        <label>Attendance:</label>
-        <select id="dayStatus">
-          <option value="">Select</option>
-          <option value="present">✅ Present</option>
-          <option value="absent">❌ Absent</option>
-          <option value="holiday">🏖️ Holiday</option>
-          <option value="freeze">❄️ Freeze</option>
-        </select>
-        <textarea id="dayNote" placeholder="Practices done today..." style="width:100%;height:80px;margin-top:8px;"></textarea>
-        <button onclick="saveDayInfo()">Save</button>
-      </div>
+  document.body.innerHTML = `
+  <header>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <img src="https://zugafitness.in/wp-content/uploads/2023/07/logo.png">
+      <strong>${client.name}</strong>
     </div>
+    <button onclick="backToHome()">Back</button>
+  </header>
+
+  <div style="padding:10px;display:grid;grid-template-columns:1fr 1.3fr 1fr;gap:10px;">
+    <!-- LEFT: Client Info -->
+    <div style="background:white;padding:10px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+      <h3 style="color:var(--zuga-green);text-align:center;">Client Info</h3>
+      <p><b>Name:</b> ${client.name}</p>
+      <p><b>Age:</b> ${client.age}</p>
+      <p><b>Height:</b> ${client.height} cm</p>
+      <p><b>Weight:</b> ${client.weight} kg</p>
+      <p><b>Medical:</b> ${client.medical || 'None'}</p>
+      <p><b>Injury:</b> ${client.injury || 'None'}</p>
+      <p><b>Joined:</b> ${client.join}</p>
+      <p><b>Renewal:</b> ${client.renew}</p>
+      <p><b>Goal:</b> ${client.notes}</p>
+    </div>
+
+    <!-- CENTER: Calendar -->
+    <div id="calendarContainer" style="background:white;padding:15px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,0.1);text-align:center;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+        <button onclick="prevMonth()">⬅️</button>
+        <h3 id="monthLabel"></h3>
+        <button onclick="nextMonth()">➡️</button>
+      </div>
+      <div id="calendarGrid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;"></div>
+      <button style="margin-top:10px;" onclick="downloadReport()">📥 Download Monthly Report</button>
+    </div>
+
+    <!-- RIGHT: Day Info -->
+    <div id="dayInfo" style="background:white;padding:10px;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,0.1);">
+      <h3 style="color:var(--zuga-green);text-align:center;">Day Info</h3>
+      <p id="dayLabel">Select a date</p>
+      <select id="attSelect" onchange="setAttendance()">
+        <option value="">Select Attendance</option>
+        <option value="present">✅ Present</option>
+        <option value="absent">❌ Absent</option>
+        <option value="holiday">🌴 Holiday</option>
+        <option value="freeze">🧊 Freeze</option>
+      </select>
+      <textarea id="notesBox" placeholder="What practice today?" onblur="saveNotes()"></textarea>
+    </div>
+  </div>
   `;
-  buildCalendar(client);
-  page.style.display='block';
+
+  currentMonth = new Date().getMonth();
+  currentYear = new Date().getFullYear();
+  renderCalendar(client);
 }
-function buildCalendar(client){
-  const calendar=document.getElementById('calendarGrid');
-  calendar.innerHTML='';
-  const today=new Date();
-  const year=today.getFullYear(), month=today.getMonth();
-  const daysInMonth=new Date(year,month+1,0).getDate();
-  for(let d=1;d<=daysInMonth;d++){
-    const date=`${year}-${month+1}-${d}`;
-    const status=(client.attendance||{})[date];
-    let color='white';
-    if(status==='present') color='#a7f3d0';
-    else if(status==='absent') color='#fecaca';
-    else if(status==='holiday') color='#fef9c3';
-    else if(status==='freeze') color='#e0e7ff';
-    const day=document.createElement('div');
-    day.textContent=d;
-    day.style.borderRadius='50%'; day.style.padding='8px'; day.style.cursor='pointer'; day.style.background=color;
-    day.onclick=()=>selectDay(client,date);
-    calendar.appendChild(day);
+
+let currentMonth, currentYear;
+function renderCalendar(client){
+  const grid = document.getElementById('calendarGrid');
+  const monthLabel = document.getElementById('monthLabel');
+  const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const daysInMonth = new Date(currentYear, currentMonth+1, 0).getDate();
+  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+  grid.innerHTML='';
+  monthLabel.textContent = monthNames[currentMonth] + ' ' + currentYear;
+
+  for(let i=0;i<firstDay;i++) grid.appendChild(document.createElement('div'));
+
+  const trainers = JSON.parse(localStorage.getItem('trainers'));
+  const idx = localStorage.getItem('currentClientIndex');
+  const c = trainers[currentTrainer].clients[idx];
+
+  for(let d=1; d<=daysInMonth; d++){
+    const btn = document.createElement('button');
+    btn.textContent = d;
+    btn.style.border='none';
+    btn.style.borderRadius='50%';
+    btn.style.width='35px';
+    btn.style.height='35px';
+    btn.style.cursor='pointer';
+    btn.style.fontWeight='bold';
+    btn.style.background='white';
+    const key = `${currentYear}-${currentMonth+1}-${d}`;
+    const status = c.attendance[key];
+    if(status==='present') btn.style.background='#c8ffd4';
+    else if(status==='absent') btn.style.background='#ffd3d3';
+    else if(status==='holiday') btn.style.background='#fff8c2';
+    else if(status==='freeze') btn.style.background='#bde0fe';
+    btn.onclick = ()=>selectDate(d);
+    grid.appendChild(btn);
   }
 }
-function selectDay(client,date){
-  document.getElementById('selectedDate').innerText=date;
-  document.getElementById('dayStatus').value=client.attendance?.[date]||'';
-  document.getElementById('dayNote').value=client.attendanceNotes?.[date]||'';
-}
-function saveDayInfo(){
-  const date=document.getElementById('selectedDate').innerText;
-  if(!date||date==='-'){alert("Select a date first.");return;}
-  const status=document.getElementById('dayStatus').value;
-  const note=document.getElementById('dayNote').value;
+
+function prevMonth(){ currentMonth--; if(currentMonth<0){currentMonth=11;currentYear--;} reloadCalendar(); }
+function nextMonth(){ currentMonth++; if(currentMonth>11){currentMonth=0;currentYear++;} reloadCalendar(); }
+function reloadCalendar(){
+  const trainers=JSON.parse(localStorage.getItem('trainers'));
   const idx=localStorage.getItem('currentClientIndex');
-  let trainers=JSON.parse(localStorage.getItem('trainers'));
-  const c=trainers[currentTrainer].clients[idx];
-  c.attendance[cdate]=status;
-  c.attendanceNotes[date]=note;
-  localStorage.setItem('trainers',JSON.stringify(trainers));
-  buildClientPage(c);
+  renderCalendar(trainers[currentTrainer].clients[idx]);
 }
-function downloadReport(){ alert("Monthly progress report downloading... (feature coming soon)"); }
-function backToHome(){ document.getElementById('clientPage').style.display='none'; document.getElementById('home').style.display='block'; }
 
-// ---- Auto-login ----
-window.onload=()=>{ const saved=localStorage.getItem('loggedTrainer'); if(saved){currentTrainer=saved;openDashboard();} };
+let selectedDate=null;
+function selectDate(d){
+  selectedDate=`${currentYear}-${currentMonth+1}-${d}`;
+  const label=document.getElementById('dayLabel');
+  label.textContent=`Date: ${selectedDate}`;
+  const trainers=JSON.parse(localStorage.getItem('trainers'));
+  const idx=localStorage.getItem('currentClientIndex');
+  const c=trainers[currentTrainer].clients[idx];
+  document.getElementById('attSelect').value=c.attendance[selectedDate]||'';
+  document.getElementById('notesBox').value=c.attendanceNotes[selectedDate]||'';
+}
 
-// ---- PWA ----
+function setAttendance(){
+  if(!selectedDate) return alert("Select a date first");
+  const val=document.getElementById('attSelect').value;
+  let trainers=JSON.parse(localStorage.getItem('trainers'));
+  const idx=localStorage.getItem('currentClientIndex');
+  const c=trainers[currentTrainer].clients[idx];
+  c.attendance[selectedDate]=val;
+  localStorage.setItem('trainers',JSON.stringify(trainers));
+  reloadCalendar();
+}
+
+function saveNotes(){
+  if(!selectedDate) return;
+  const txt=document.getElementById('notesBox').value;
+  let trainers=JSON.parse(localStorage.getItem('trainers'));
+  const idx=localStorage.getItem('currentClientIndex');
+  const c=trainers[currentTrainer].clients[idx];
+  c.attendanceNotes[selectedDate]=txt;
+  localStorage.setItem('trainers',JSON.stringify(trainers));
+}
+
+/* ===== DOWNLOAD MONTHLY REPORT ===== */
+async function downloadReport(){
+  const trainers=JSON.parse(localStorage.getItem('trainers'));
+  const idx=localStorage.getItem('currentClientIndex');
+  const c=trainers[currentTrainer].clients[idx];
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(16);
+  doc.text(`Zuga Fitness Monthly Report`, 20, 20);
+  doc.setFontSize(12);
+  doc.text(`Client: ${c.name}`, 20, 30);
+  doc.text(`Month: ${currentMonth+1}-${currentYear}`, 20, 38);
+  let y=50;
+  Object.keys(c.attendance).forEach(date=>{
+    if(date.includes(`${currentYear}-${currentMonth+1}-`)){
+      doc.text(`${date} - ${c.attendance[date] || 'N/A'} - ${c.attendanceNotes[date]||''}`,20,y);
+      y+=8;
+      if(y>270){ doc.addPage(); y=20; }
+    }
+  });
+  doc.save(`${c.name}_report_${currentMonth+1}_${currentYear}.pdf`);
+}
+
+/* ===== NAVIGATION ===== */
+function backToHome(){ location.reload(); }
+
+/* ===== INSTALL PWA ===== */
 let deferredPrompt;
-const installBtn=document.getElementById('installBtn');
-window.addEventListener('beforeinstallprompt', e=>{ e.preventDefault(); deferredPrompt=e; installBtn.style.display='block'; });
-installBtn.addEventListener('click', async ()=>{ installBtn.style.display='none'; deferredPrompt.prompt(); await deferredPrompt.userChoice; deferredPrompt=null; });
-if('serviceWorker' in navigator){ window.addEventListener('load', ()=>{ navigator.serviceWorker.register('service-worker.js').then(()=>console.log('✅ Service worker registered')); }); }
-</script>
+window.addEventListener('beforeinstallprompt',(e)=>{
+  e.preventDefault(); deferredPrompt=e;
+  document.getElementById('installBtn').style.display='block';
+});
+document.getElementById('installBtn').addEventListener('click',async()=>{
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    const {outcome}=await deferredPrompt.userChoice;
+    if(outcome==='accepted'){document.getElementById('installBtn').style.display='none';}
+    deferredPrompt=null;
+  }
+});
 
+/* ===== AUTO LOGIN IF SESSION ===== */
+window.onload=()=>{
+  const t=localStorage.getItem('loggedTrainer');
+  if(t){ currentTrainer=t; openDashboard(); }
+};
+</script>
 </body>
 </html>
