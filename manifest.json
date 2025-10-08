@@ -1,14 +1,20 @@
 {
-  "name": "Zuga Fitness Trainer App",
-  "short_name": "ZugaTrainer",
+  "name": "Zuga Fitness Trainer",
+  "short_name": "Zuga Trainer",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f7fffc",
+  "background_color": "#00bfa6",
   "theme_color": "#00bfa6",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "https://zugafitness.in/wp-content/uploads/2023/07/logo.png",
+      "src": "logo192.png",
       "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo512.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ]
