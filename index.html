@@ -2,321 +2,195 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Zuga Fitness Trainer App</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zuga Fitness Trainer</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#00bfa6">
 <style>
-/* ===== COLORS ===== */
 :root {
-  --zuga-green: #00bfa6;
-  --zuga-dark: #034a42;
-  --zuga-bg: #f7fffc;
-  --zuga-card: #ffffff;
-  --absent: #ff9a9a;
+  --green: #00bfa6;
+  --dark: #004e45;
+  --light: #f0fff9;
   --present: #a7f3d0;
-  --holiday: #fde68a;
+  --absent: #fecaca;
+  --holiday: #fef9c3;
   --freeze: #bfdbfe;
 }
-
-/* ===== GENERAL ===== */
 body {
-  margin: 0;
   font-family: "Poppins", sans-serif;
-  background: var(--zuga-bg);
-  color: #333;
-  overflow-x: hidden;
+  background: var(--light);
+  margin: 0;
+  padding: 0;
+  color: #222;
 }
-h2,h3,h4 {margin:0;}
-button,input,textarea {font-family:inherit;}
-img {max-width:100%;height:auto;}
-
-/* ===== HEADER ===== */
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 18px;
-  background: var(--zuga-green);
+  background: var(--green);
   color: white;
+  text-align: center;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: 600;
   position: sticky;
   top: 0;
-  z-index: 10;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
-header img {height:36px;border-radius:8px;}
-header button {
-  background: white;
-  color: var(--zuga-green);
-  border: none;
-  border-radius: 20px;
-  padding: 6px 14px;
-  font-weight: 600;
-}
-
-/* ===== LOGIN + REGISTER ===== */
-.page {
-  display: none;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
-}
-.page.active { display:flex; }
-
-.card {
-  background: var(--zuga-card);
-  padding: 25px;
-  border-radius: 18px;
-  width: 100%;
-  max-width: 380px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  text-align: center;
-}
-.card h2 { color: var(--zuga-green); margin-bottom: 18px; }
-
-input, textarea {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  margin-bottom: 12px;
-  font-size: 15px;
+.container {
+  padding: 14px;
+  max-width: 480px;
+  margin: auto;
 }
 button {
-  background: var(--zuga-green);
+  background: var(--green);
   color: white;
   border: none;
-  border-radius: 10px;
-  padding: 12px;
-  font-size: 15px;
+  border-radius: 8px;
+  padding: 10px;
   font-weight: 600;
   cursor: pointer;
   width: 100%;
 }
-button:hover {opacity:0.9;}
-a {color:var(--zuga-green);text-decoration:none;}
-
-/* ===== HOME ===== */
-#home {padding: 15px;display:none;}
-#home h2 {text-align:center;margin-bottom:15px;}
-.client-card {
-  background: var(--zuga-card);
+.card {
+  background: white;
+  padding: 14px;
   border-radius: 12px;
-  padding: 15px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
   margin-bottom: 10px;
+  font-family: inherit;
+}
+h3 {
+  margin: 0 0 10px;
+  color: var(--dark);
+}
+.client-list-item {
+  background: white;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
-.client-card span:first-child {
+.client-list-item span {
   font-weight: 600;
-  color: var(--zuga-dark);
+  color: var(--dark);
   cursor: pointer;
 }
-.client-card button {
-  background: none;
-  border: none;
-  font-size: 18px;
-  margin-left: 5px;
-}
 
-/* ===== CLIENT MODAL ===== */
-#clientModal {
-  position: fixed;
-  top:0; left:0; right:0; bottom:0;
-  background: rgba(0,0,0,0.4);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:100;
+/* ===== Calendar ===== */
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  justify-items: center;
 }
-.modal-box {
-  background:white;
-  padding:20px;
-  border-radius:16px;
-  width:90%;
-  max-width:400px;
-  max-height:90vh;
-  overflow-y:auto;
+.day {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  background: white;
+  transition: 0.2s;
 }
+.day.present { background: var(--present); border-color: #34d399; }
+.day.absent { background: var(--absent); border-color: #f87171; }
+.day.holiday { background: var(--holiday); border-color: #facc15; }
+.day.freeze { background: var(--freeze); border-color: #60a5fa; }
+.day.selected { outline: 3px solid var(--green); transform: scale(1.1); }
 
-/* ===== CLIENT PAGE ===== */
-.client-layout{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-  padding:10px;
-}
-.info-box, .calendar-box, .day-box {
-  background:white;
-  border-radius:12px;
-  padding:12px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.08);
-}
-
-/* ===== CALENDAR ===== */
-#calendarGrid {
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:8px;
-  justify-items:center;
-  margin-top:10px;
-}
-#calendarGrid button {
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  border:none;
-  background:#f1f1f1;
-  font-weight:bold;
-  cursor:pointer;
-  transition:0.2s;
-}
-#calendarGrid button.present {background:var(--present);}
-#calendarGrid button.absent {background:var(--absent);}
-#calendarGrid button.holiday {background:var(--holiday);}
-#calendarGrid button.freeze {background:var(--freeze);}
-#calendarGrid button:hover {transform:scale(1.1);}
-
-/* ===== INSTALL BUTTON ===== */
-.install-btn {
-  position:fixed;
-  bottom:15px;
-  right:15px;
-  background:var(--zuga-green);
-  color:white;
-  border:none;
-  border-radius:10px;
-  padding:12px 16px;
-  font-weight:bold;
-  box-shadow:0 4px 8px rgba(0,0,0,0.2);
-  display:none;
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .calendar { gap: 4px; }
+  .day { width: 36px; height: 36px; font-size: 14px; }
 }
 </style>
 </head>
 <body>
 
-<header id="mainHeader" style="display:none;">
-  <div style="display:flex;align-items:center;gap:10px;">
-    <img src="https://zugafitness.in/wp-content/uploads/2023/07/logo.png" alt="Zuga Logo">
-    <strong>Zuga Trainer</strong>
+<header>Zuga Trainer</header>
+<div class="container" id="app">
+
+  <!-- Home -->
+  <div id="home">
+    <h3>Your Clients</h3>
+    <div id="clientList"></div>
+    <button onclick="showAddClient()">Add New Client</button>
   </div>
-  <button onclick="logout()">Logout</button>
-</header>
 
-<!-- LOGIN -->
-<div id="login" class="page active">
-  <div class="card">
-    <img src="https://zugafitness.in/wp-content/uploads/2023/07/logo.png" height="60" alt="Zuga Logo">
-    <h2>Trainer Login</h2>
-    <input id="loginEmail" placeholder="Email / Phone">
-    <input id="loginPass" type="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <p>New Trainer? <a href="#" onclick="showPage('register')">Register</a></p>
+  <!-- Add Client -->
+  <div id="addClient" style="display:none;">
+    <div class="card">
+      <h3>Add Client</h3>
+      <input id="cName" placeholder="Full Name">
+      <input id="cAge" placeholder="Age">
+      <input id="cHeight" placeholder="Height (cm)">
+      <input id="cWeight" placeholder="Weight (kg)">
+      <input id="cMedical" placeholder="Medical Condition">
+      <input id="cInjury" placeholder="Injuries (if any)">
+      <input id="cJoin" type="date" placeholder="Join Date">
+      <input id="cRenew" type="date" placeholder="Renewal Date">
+      <button onclick="saveClient()">Save</button>
+      <button style="background:#ccc;margin-top:8px;" onclick="showHome()">Cancel</button>
+    </div>
   </div>
-</div>
 
-<!-- REGISTER -->
-<div id="register" class="page">
-  <div class="card">
-    <h2>Trainer Registration</h2>
-    <input id="regEmail" placeholder="Email / Phone">
-    <input id="regPass" type="password" placeholder="Create Password">
-    <button onclick="sendOTP()">Send OTP</button>
-    <input id="otpInput" placeholder="Enter OTP" style="display:none;">
-    <button id="verifyBtn" onclick="verifyOTP()" style="display:none;">Verify & Register</button>
-    <p>Already registered? <a href="#" onclick="showPage('login')">Login</a></p>
+  <!-- Client Page -->
+  <div id="clientPage" style="display:none;">
+    <button style="margin-bottom:10px;" onclick="showHome()">⬅ Back</button>
+    <div id="clientInfo" class="card"></div>
+    <div class="card">
+      <h3>Attendance Calendar</h3>
+      <div id="calendar" class="calendar"></div>
+    </div>
+    <div class="card" id="dayInfo">
+      <h3>Day Info</h3>
+      <p id="selectedDate">Select a date from the calendar.</p>
+      <select id="attendanceSelect" onchange="updateDayStatus()">
+        <option value="">Select Status</option>
+        <option value="present">Present</option>
+        <option value="absent">Absent</option>
+        <option value="holiday">Holiday</option>
+        <option value="freeze">Freeze</option>
+      </select>
+      <textarea id="practiceNotes" placeholder="What was practiced today?"></textarea>
+      <button onclick="downloadReport()">Download Monthly Report</button>
+    </div>
   </div>
+
 </div>
-
-<!-- HOME -->
-<div id="home">
-  <h2>My Clients</h2>
-  <div id="clientsList"></div>
-  <button onclick="openClientModal()">➕ Add Client</button>
-</div>
-
-<!-- CLIENT MODAL -->
-<div id="clientModal">
-  <div class="modal-box">
-    <h3 id="modalTitle">Add Client</h3>
-    <input id="cName" placeholder="Client Name">
-    <input id="cAge" placeholder="Age">
-    <input id="cHeight" placeholder="Height (cm)">
-    <input id="cWeight" placeholder="Weight (kg)">
-    <input id="cMedical" placeholder="Medical Condition">
-    <input id="cInjury" placeholder="Injury Info">
-    <input id="cJoin" type="date" placeholder="Joining Date">
-    <input id="cRenew" type="date" placeholder="Renewal Date">
-    <textarea id="cNotes" placeholder="Goals or Notes"></textarea>
-    <button onclick="saveClient()">Save</button>
-    <button onclick="closeClientModal()" style="background:#ff9a9a;margin-top:5px;">Cancel</button>
-  </div>
-</div>
-
-<!-- INSTALL BUTTON -->
-<button class="install-btn" id="installBtn">Install App</button>
-
-<!-- CLIENT PAGE TEMPLATE -->
-<div id="clientPage" style="display:none;"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 <script>
-let deferredPrompt;
-window.addEventListener("beforeinstallprompt", e=>{
-  e.preventDefault(); deferredPrompt = e;
-  document.getElementById("installBtn").style.display="block";
-});
-document.getElementById("installBtn").addEventListener("click", async ()=>{
-  if(deferredPrompt){ deferredPrompt.prompt(); deferredPrompt=null; }
-});
+let clients = JSON.parse(localStorage.getItem("clients")||"[]");
+let currentClient = null;
+let attendance = JSON.parse(localStorage.getItem("attendance")||"{}");
+let selectedDate = null;
 
-/* Page handling */
-function showPage(id){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
-
-/* Trainer Login/Register (mocked) */
-function sendOTP(){
-  document.getElementById("otpInput").style.display="block";
-  document.getElementById("verifyBtn").style.display="block";
-  alert("OTP sent! (demo)");
-}
-function verifyOTP(){
-  localStorage.setItem("trainer", document.getElementById("regEmail").value);
-  alert("Registration successful!");
-  showPage("login");
-}
-function login(){
-  localStorage.setItem("trainer", document.getElementById("loginEmail").value);
-  document.getElementById("mainHeader").style.display="flex";
-  document.getElementById("login").style.display="none";
+/* Navigation */
+function showHome(){
   document.getElementById("home").style.display="block";
+  document.getElementById("addClient").style.display="none";
+  document.getElementById("clientPage").style.display="none";
   loadClients();
 }
-function logout(){
-  localStorage.removeItem("trainer");
-  location.reload();
+function showAddClient(){
+  document.getElementById("home").style.display="none";
+  document.getElementById("addClient").style.display="block";
 }
 
-/* Clients Management */
-function openClientModal(){
-  document.getElementById("clientModal").style.display="flex";
-}
-function closeClientModal(){
-  document.getElementById("clientModal").style.display="none";
-  clearClientForm();
-}
-function clearClientForm(){
-  ["cName","cAge","cHeight","cWeight","cMedical","cInjury","cJoin","cRenew","cNotes"].forEach(id=>document.getElementById(id).value="");
-}
+/* Save & Load Clients */
 function saveClient(){
   const c={
-    id:Date.now(),
+    id: Date.now(),
     name: cName.value,
     age: cAge.value,
     height: cHeight.value,
@@ -324,117 +198,108 @@ function saveClient(){
     medical: cMedical.value,
     injury: cInjury.value,
     join: cJoin.value,
-    renew: cRenew.value,
-    notes: cNotes.value
+    renew: cRenew.value
   };
-  let clients=JSON.parse(localStorage.getItem("clients")||"[]");
   clients.push(c);
   localStorage.setItem("clients",JSON.stringify(clients));
-  closeClientModal();
-  loadClients();
+  showHome();
 }
 function loadClients(){
-  const list=document.getElementById("clientsList");
+  const list=document.getElementById("clientList");
   list.innerHTML="";
-  let clients=JSON.parse(localStorage.getItem("clients")||"[]");
   clients.forEach(c=>{
     const div=document.createElement("div");
-    div.className="client-card";
-    div.innerHTML=`<span onclick="openClient(${c.id})">${c.name}</span>
-      <button onclick="deleteClient(${c.id})">🗑️</button>`;
+    div.className="client-list-item";
+    div.innerHTML=`<span onclick="openClient(${c.id})">${c.name}</span> 
+                   <button onclick="deleteClient(${c.id})" style="width:auto;background:none;color:red;">🗑</button>`;
     list.appendChild(div);
   });
 }
 function deleteClient(id){
-  let clients=JSON.parse(localStorage.getItem("clients")||"[]");
-  clients=clients.filter(c=>c.id!==id);
+  clients = clients.filter(c=>c.id!==id);
   localStorage.setItem("clients",JSON.stringify(clients));
   loadClients();
 }
 
-/* Client Page + Calendar */
+/* Open Client */
 function openClient(id){
+  currentClient = clients.find(c=>c.id===id);
   document.getElementById("home").style.display="none";
-  const c=JSON.parse(localStorage.getItem("clients")).find(x=>x.id===id);
-  const div=document.getElementById("clientPage");
-  div.style.display="block";
-  div.innerHTML=`
-    <button onclick="backHome()">⬅️ Back</button>
-    <div class="client-layout">
-      <div class="info-box">
-        <h3>${c.name}</h3>
-        <p><b>Age:</b> ${c.age}</p>
-        <p><b>Height:</b> ${c.height} cm | <b>Weight:</b> ${c.weight} kg</p>
-        <p><b>Medical:</b> ${c.medical || '-'}</p>
-        <p><b>Injury:</b> ${c.injury || '-'}</p>
-        <p><b>Join:</b> ${c.join}</p>
-        <p><b>Renew:</b> ${c.renew}</p>
-        <p><b>Goals:</b> ${c.notes || '-'}</p>
-        <button onclick="downloadReport(${id})">📄 Download Report</button>
-      </div>
-      <div class="calendar-box">
-        <h4>Attendance</h4>
-        <div id="calendarGrid"></div>
-        <p style="margin-top:8px;">Tap date → toggle between Present / Absent / Holiday / Freeze</p>
-      </div>
-    </div>
+  document.getElementById("clientPage").style.display="block";
+  document.getElementById("clientInfo").innerHTML = `
+    <h3>${currentClient.name}</h3>
+    <p><b>Age:</b> ${currentClient.age}</p>
+    <p><b>Height:</b> ${currentClient.height} cm | <b>Weight:</b> ${currentClient.weight} kg</p>
+    <p><b>Medical:</b> ${currentClient.medical || '-'}</p>
+    <p><b>Injury:</b> ${currentClient.injury || '-'}</p>
+    <p><b>Join:</b> ${currentClient.join}</p>
+    <p><b>Renew:</b> ${currentClient.renew}</p>
   `;
-  generateCalendar(id);
-}
-function backHome(){
-  document.getElementById("clientPage").style.display="none";
-  document.getElementById("home").style.display="block";
+  buildCalendar();
 }
 
-/* Calendar */
-function generateCalendar(id){
-  const grid=document.getElementById("calendarGrid");
-  grid.innerHTML="";
-  const days=new Date(new Date().getFullYear(), new Date().getMonth()+1,0).getDate();
-  const data=JSON.parse(localStorage.getItem("attendance")||"{}");
-  const monthKey=new Date().toISOString().slice(0,7);
-  for(let i=1;i<=days;i++){
-    const btn=document.createElement("button");
-    const status=(data[id]?.[monthKey]?.[i])||"";
-    if(status) btn.classList.add(status);
-    btn.textContent=i;
-    btn.onclick=()=>toggleStatus(id,monthKey,i,btn);
-    grid.appendChild(btn);
+/* Build Calendar */
+function buildCalendar(){
+  const calendar=document.getElementById("calendar");
+  calendar.innerHTML="";
+  const today=new Date();
+  const monthKey=today.toISOString().slice(0,7);
+  const totalDays=new Date(today.getFullYear(),today.getMonth()+1,0).getDate();
+  if(!attendance[currentClient.id]) attendance[currentClient.id]={};
+  if(!attendance[currentClient.id][monthKey]) attendance[currentClient.id][monthKey]={};
+  
+  for(let i=1;i<=totalDays;i++){
+    const dateStr=`${monthKey}-${String(i).padStart(2,'0')}`;
+    const dayDiv=document.createElement("div");
+    dayDiv.className="day";
+    const status=attendance[currentClient.id][monthKey][dateStr];
+    if(status) dayDiv.classList.add(status);
+    dayDiv.textContent=i;
+    dayDiv.onclick=()=>selectDay(dateStr, dayDiv);
+    calendar.appendChild(dayDiv);
   }
 }
-function toggleStatus(id,monthKey,day,btn){
-  const statuses=["","present","absent","holiday","freeze"];
-  let current=statuses.findIndex(s=>btn.classList.contains(s));
-  btn.className="";
-  const next=statuses[(current+1)%statuses.length];
-  if(next) btn.classList.add(next);
-  const data=JSON.parse(localStorage.getItem("attendance")||"{}");
-  data[id]=data[id]||{}; data[id][monthKey]=data[id][monthKey]||{};
-  data[id][monthKey][day]=next;
-  localStorage.setItem("attendance",JSON.stringify(data));
+
+/* Select Date */
+function selectDay(dateStr, el){
+  document.querySelectorAll(".day").forEach(d=>d.classList.remove("selected"));
+  el.classList.add("selected");
+  selectedDate=dateStr;
+  document.getElementById("selectedDate").textContent="Selected Date: "+dateStr;
+  const status=attendance[currentClient.id][dateStr];
+  document.getElementById("attendanceSelect").value=status||"";
+  document.getElementById("practiceNotes").value=attendance[currentClient.id][dateStr+"_note"]||"";
 }
 
-/* PDF Report */
-async function downloadReport(id){
+/* Update Day Status */
+function updateDayStatus(){
+  if(!selectedDate) return alert("Select a date first!");
+  const val=document.getElementById("attendanceSelect").value;
+  const note=document.getElementById("practiceNotes").value;
+  attendance[currentClient.id][selectedDate]=val;
+  attendance[currentClient.id][selectedDate+"_note"]=note;
+  localStorage.setItem("attendance",JSON.stringify(attendance));
+  buildCalendar();
+}
+
+/* Download Report */
+async function downloadReport(){
   const { jsPDF } = window.jspdf;
   const doc=new jsPDF();
-  const clients=JSON.parse(localStorage.getItem("clients"));
-  const c=clients.find(x=>x.id===id);
-  doc.setFontSize(16);
-  doc.text(`Zuga Fitness - ${c.name} Monthly Report`,10,15);
-  doc.setFontSize(12);
-  doc.text(`Age: ${c.age}, Height: ${c.height}cm, Weight: ${c.weight}kg`,10,25);
-  const data=JSON.parse(localStorage.getItem("attendance")||"{}");
   const monthKey=new Date().toISOString().slice(0,7);
-  const attendance=data[id]?.[monthKey]||{};
-  let y=40;
-  for(let i=1;i<=Object.keys(attendance).length;i++){
-    doc.text(`${i}: ${attendance[i]||'-'}`,10,y);
-    y+=6;
+  doc.text(`Zuga Fitness - ${currentClient.name} Monthly Report`,10,10);
+  let y=20;
+  const days=attendance[currentClient.id];
+  for(let date in days){
+    if(date.includes(monthKey)){
+      doc.text(`${date}: ${days[date]||'-'} - ${days[date+"_note"]||''}`,10,y);
+      y+=6;
+    }
   }
-  doc.save(`${c.name}_report.pdf`);
+  doc.save(`${currentClient.name}_report.pdf`);
 }
-</script>
 
+loadClients();
+</script>
 </body>
 </html>
